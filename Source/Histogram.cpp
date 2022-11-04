@@ -275,7 +275,7 @@ void Histogram::paint(Graphics& g)
             if (sortedIdIndex < 0)
                 continue;
             
-            for (int i = 0; i < nBins; i++)
+            for (int i = 0; i < nBins - 1; i++)
             {
                 if (hoverBin == i)
                     g.setColour(plotColour.withAlpha(0.85f));
@@ -286,8 +286,12 @@ void Histogram::paint(Graphics& g)
                 float relativeHeight = float(counts[sortedIdIndex][i]) / float(maxCount);
                 float height = relativeHeight * histogramHeight;
                 float y = 10 + histogramHeight - height;
-                g.fillRect(x, y, binWidth+1, height);
-
+                float x1 = binWidth * (i + 1); 
+                float relativeHeight1 = float(counts[sortedIdIndex][i+1]) / float(maxCount);
+                float height1 = relativeHeight1 * histogramHeight;
+                float y1 = 10 + histogramHeight - height1;
+                //g.fillRect(x, y, binWidth+1, height);
+                g.drawLine(x, y, x1, y1);
             }
         }
     }

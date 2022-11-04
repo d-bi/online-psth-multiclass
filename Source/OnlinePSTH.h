@@ -69,6 +69,9 @@ public:
     /** Pointer to the display canvas */
     OnlinePSTHCanvas* canvas;
 
+    /** State variable storing current stimulus class */
+    int currentStimClass = -1;
+
 private:
     
     /** Pushes incoming events to the canvas */

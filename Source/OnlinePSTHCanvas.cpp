@@ -36,8 +36,8 @@ OnlinePSTHCanvas::OnlinePSTHCanvas()
     
     plotTypeSelector = new ComboBox("Plot Type Selector");
     plotTypeSelector->addItem("Histogram", 1);
-    plotTypeSelector->addItem("Raster", 2);
-    plotTypeSelector->addItem("Histogram + Raster", 3);
+    //plotTypeSelector->addItem("Raster", 2);
+    //plotTypeSelector->addItem("Histogram + Raster", 3);
     plotTypeSelector->setSelectedId(1, dontSendNotification);
     plotTypeSelector->addListener(this);
     addAndMakeVisible(plotTypeSelector);
@@ -87,7 +87,7 @@ void OnlinePSTHCanvas::paint(Graphics& g)
     
     g.setColour(Colours::white);
     //g.drawLine(0, getHeight()-3, histogramWidth, getHeight()-3, 3.0);
-    g.drawLine(zeroLoc, 0, zeroLoc, getHeight(), 2.0);
+    g.drawLine(zeroLoc, 0, zeroLoc, getHeight(), 2.0); // midline
     
 }
 

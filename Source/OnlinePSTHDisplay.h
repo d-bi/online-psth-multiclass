@@ -83,9 +83,9 @@ public:
     
 private:
     
-    OwnedArray<Histogram> histograms;
+    OwnedArray<Histogram> histograms; // TODO: 2D array of histograms
     
-    std::map<const SpikeChannel*, Histogram*> histogramMap;
+    std::map<const SpikeChannel*, Histogram*> histogramMap; // TODO: array of histograms for each channel
     
     int totalHeight = 0;
     const int histogramHeight = 100;
