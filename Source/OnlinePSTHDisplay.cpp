@@ -31,10 +31,15 @@ OnlinePSTHDisplay::OnlinePSTHDisplay()
 
 void OnlinePSTHDisplay::refresh()
 {
-    for (auto hist : histograms)
-    {
-        hist->repaint();
+    for (OwnedArray<Histogram>* hists : histograms) {
+        for (auto hist : *hists) {
+            hist->repaint();
+        }
     }
+    //for (auto hist : histograms)
+    //{
+    //    hist->repaint();
+    //}
 }
 
 
@@ -49,30 +54,40 @@ void OnlinePSTHDisplay::prepareToUpdate()
 void OnlinePSTHDisplay::resized()
 {
     totalHeight = 0;
-    
-    for (auto hist : histograms)
-    {
-        hist->setBounds(10, totalHeight, getWidth()-20, histogramHeight);
+    for (OwnedArray<Histogram>* hists : histograms) {
+        for (auto hist : *hists) {
+            hist->setBounds(10, totalHeight, getWidth() - 20, histogramHeight);
+        }
         totalHeight += histogramHeight + borderSize;
-        
-        //std::cout << "Histogram bounds: 0, " << totalHeight << ", " << getWidth() << ", " << histogramHeight << std::endl;
     }
+    //for (auto hist : histograms)
+    //{
+    //    hist->setBounds(10, totalHeight, getWidth()-20, histogramHeight);
+    //    totalHeight += histogramHeight + borderSize;
+    //    
+    //    //std::cout << "Histogram bounds: 0, " << totalHeight << ", " << getWidth() << ", " << histogramHeight << std::endl;
+    //}
 }
 
 
-void OnlinePSTHDisplay::addSpikeChannel(const SpikeChannel* channel)
+void OnlinePSTHDisplay::addSpikeChannel(const SpikeChannel* channel, int numStimClasses)
 {
-    Histogram* h = new Histogram(channel);
-    h->setPlotType(plotType);
+    OwnedArray<Histogram>* hists = new OwnedArray<Histogram>();
+    for (int i = 0; i < numStimClasses; i++)
+    {
+        Histogram* h = new Histogram(channel, i, colorList[i]);
+        h->setPlotType(plotType);
+        hists->add(h);
+        addAndMakeVisible(h);
+    }
     
-    histograms.add(h);
-    histogramMap[channel] = h;
+    histograms.add(hists);
+    histogramMap[channel] = hists;
     
     totalHeight += histogramHeight + borderSize;
     
     //std::cout << "Adding histogram for " << channel->getName() << std::endl;
 
-    addAndMakeVisible(h);
 }
 
 
@@ -80,19 +95,28 @@ void OnlinePSTHDisplay::setWindowSizeMs(int pre_ms, int post_ms_)
 {
     
     post_ms = post_ms_;
-    
-    for (auto hist : histograms)
-    {
-        hist->setWindowSizeMs(pre_ms, post_ms);
+    for (OwnedArray<Histogram>* hists : histograms) {
+        for (auto hist : *hists) {
+            hist->setWindowSizeMs(pre_ms, post_ms);
+        }
     }
+    //for (auto hist : histograms)
+    //{
+    //    hist->setWindowSizeMs(pre_ms, post_ms);
+    //}
 }
 
 void OnlinePSTHDisplay::setBinSizeMs(int bin_size)
 {
-    for (auto hist : histograms)
-    {
-        hist->setBinSizeMs(bin_size);
+    for (OwnedArray<Histogram>* hists : histograms) {
+        for (auto hist : *hists) {
+            hist->setBinSizeMs(bin_size);
+        }
     }
+    //for (auto hist : histograms)
+    //{
+    //    hist->setBinSizeMs(bin_size);
+    //}
 }
 
 
@@ -101,27 +125,37 @@ void OnlinePSTHDisplay::setPlotType(int plotType_)
 {
     
     plotType = plotType_;
-    
-    for (auto hist : histograms)
-    {
-        hist->setPlotType(plotType);
+    for (OwnedArray<Histogram>* hists : histograms) {
+        for (auto hist : *hists) {
+            hist->setPlotType(plotType);
+        }
     }
+    //for (auto hist : histograms)
+    //{
+    //    hist->setPlotType(plotType);
+    //}
 }
 
 void OnlinePSTHDisplay::pushEvent(uint16 streamId, int64 sample_number)
 {
-    
-    for (auto hist : histograms)
-    {
-        if (hist->streamId == streamId)
-            hist->addEvent(sample_number);
+    for (OwnedArray<Histogram>* hists : histograms) {
+        for (auto hist : *hists) {
+            if (hist->streamId == streamId)
+                hist->addEvent(sample_number);
+        }
     }
+    //for (auto hist : histograms)
+    //{
+    //    if (hist->streamId == streamId)
+    //        hist->addEvent(sample_number);
+    //}
     
 }
 
-void OnlinePSTHDisplay::pushSpike(const SpikeChannel* channel, int64 sample_number, int sortedId)
+void OnlinePSTHDisplay::pushSpike(const SpikeChannel* channel, int64 sample_number, int sortedId, int stimClass)
 {
-    histogramMap[channel]->addSpike(sample_number, sortedId);
+    (* histogramMap[channel])[stimClass]->addSpike(sample_number, sortedId);
+    //histogramMap[channel]->addSpike(sample_number, sortedId);
 }
 
 

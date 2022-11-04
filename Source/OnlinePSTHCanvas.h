@@ -83,10 +83,10 @@ public:
     void pushEvent(uint16 streamId, int64 sample_number);
     
     /** Add a spike to the queue */
-    void pushSpike(const SpikeChannel* channel, int64 sample_number, int sortedId);
+    void pushSpike(const SpikeChannel* channel, int64 sample_number, int sortedId, int stimClass);
     
     /** Adds a spike channel */
-    void addSpikeChannel(const SpikeChannel* channel);
+    void addSpikeChannel(const SpikeChannel* channel, int numStimClasses);
     
     /** Prepare for update*/
     void prepareToUpdate();

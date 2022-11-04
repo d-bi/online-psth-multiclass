@@ -67,10 +67,10 @@ public:
     void pushEvent(uint16 streamId, int64 sample_number);
     
     /** Add a spike to the queue */
-    void pushSpike(const SpikeChannel* channel, int64 sample_number, int sortedId);
+    void pushSpike(const SpikeChannel* channel, int64 sample_number, int sortedId, int stimClass);
     
     /** Adds a spike channel */
-    void addSpikeChannel(const SpikeChannel* channel);
+    void addSpikeChannel(const SpikeChannel* channel, int numStimClasses);
     
     /** Prepare for update*/
     void prepareToUpdate();
@@ -83,9 +83,9 @@ public:
     
 private:
     
-    OwnedArray<Histogram> histograms; // TODO: 2D array of histograms
+    OwnedArray<OwnedArray<Histogram>> histograms; // TODO: 2D array of histograms
     
-    std::map<const SpikeChannel*, Histogram*> histogramMap; // TODO: array of histograms for each channel
+    std::map<const SpikeChannel*, OwnedArray<Histogram>*> histogramMap; // TODO: array of histograms for each channel
     
     int totalHeight = 0;
     const int histogramHeight = 100;
@@ -93,6 +93,12 @@ private:
     
     int post_ms;
     int plotType = 1;
+
+    std::vector<Colour> colorList = {
+    Colour(30,118,179), Colour(255,126,13), Colour(43,159,43),
+    Colour(213,38,39), Colour(147,102,188), Colour(139,85,74),
+    Colour(226,118,193), Colour(126,126,126), Colour(187,188,33),
+    Colour(22,189,206) };
 };
 
 

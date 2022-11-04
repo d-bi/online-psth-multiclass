@@ -40,7 +40,7 @@ class Histogram :
 public:
     
     /** Constructor */
-    Histogram(const SpikeChannel* channel);
+    Histogram(const SpikeChannel* channel, int stimClass, Colour color);
     
     /** Destructor */
     ~Histogram() { }
@@ -80,6 +80,12 @@ public:
     
     /** Stream ID for this histogram */
     uint16 streamId;
+
+    /** Color of this plot */
+    Colour lineColor;
+
+    /** Stim class ID for this histogram */
+    int stimClass;
 
 private:
     
@@ -133,7 +139,7 @@ private:
     float numTrials = 0;
     
     const double sample_rate;
-    
+
 };
 
 

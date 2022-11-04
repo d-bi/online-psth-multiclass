@@ -113,14 +113,14 @@ void OnlinePSTHCanvas::pushEvent(uint16 streamId, int64 sample_number)
 }
 
 
-void OnlinePSTHCanvas::pushSpike(const SpikeChannel* channel, int64 sample_number, int sortedId)
+void OnlinePSTHCanvas::pushSpike(const SpikeChannel* channel, int64 sample_number, int sortedId, int stimClass)
 {
-    display->pushSpike(channel, sample_number, sortedId);
+    display->pushSpike(channel, sample_number, sortedId, stimClass);
 }
 
-void OnlinePSTHCanvas::addSpikeChannel(const SpikeChannel* channel)
+void OnlinePSTHCanvas::addSpikeChannel(const SpikeChannel* channel, int numStimClasses)
 {
-    display->addSpikeChannel(channel);
+    display->addSpikeChannel(channel, numStimClasses);
 }
 
 void OnlinePSTHCanvas::prepareToUpdate()

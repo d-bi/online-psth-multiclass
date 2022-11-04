@@ -22,11 +22,13 @@
 
 #include "Histogram.h"
 
-Histogram::Histogram(const SpikeChannel* channel)
+Histogram::Histogram(const SpikeChannel* channel, int stimClass, Colour lineColor)
     : sample_rate(channel->getSampleRate()),
       streamId(channel->getStreamId()),
       waitingForWindowToClose(false),
-      latestEventSampleNumber(0)
+      latestEventSampleNumber(0),
+      lineColor(lineColor),
+      stimClass(stimClass)
 {
     
     pre_ms = 0;
@@ -277,10 +279,11 @@ void Histogram::paint(Graphics& g)
             
             for (int i = 0; i < nBins - 1; i++)
             {
-                if (hoverBin == i)
-                    g.setColour(plotColour.withAlpha(0.85f));
-                else
-                    g.setColour(plotColour);
+                //if (hoverBin == i)
+                //    g.setColour(plotColour.withAlpha(0.85f));
+                //else
+                //    g.setColour(plotColour);
+                g.setColour(lineColor);
                 
                 float x = binWidth * i;
                 float relativeHeight = float(counts[sortedIdIndex][i]) / float(maxCount);

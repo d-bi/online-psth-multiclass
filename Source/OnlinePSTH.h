@@ -72,6 +72,12 @@ public:
     /** State variable storing current stimulus class */
     int currentStimClass = -1;
 
+    /** Number of different stimulus classes */
+    int numStimClasses = 6;
+
+    /** Number of TTL channels to offset */
+    int offsetTTL = 9; // trigger=10, line=9, want stim_id=0
+
 private:
     
     /** Pushes incoming events to the canvas */

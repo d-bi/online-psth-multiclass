@@ -111,25 +111,32 @@ void OnlinePSTH::handleTTLEvent(TTLEventPtr event)
 {
     bool onOff = event->getState();
     if (onOff) {
-        currentStimClass = event->getLine();
+        currentStimClass = event->getLine() - offsetTTL;
     }
     else {
         currentStimClass = -1; // end of stim presentation
     }
     std::cout << "current stim class " << currentStimClass << std::endl;
 
-    // TODO: update for all events?
-    if (event->getLine() == (int(getParameter("trigger")->getValue())-1) && event->getState())
-    {
-        if (canvas != nullptr)
-            canvas->pushEvent(event->getStreamId(), event->getSampleNumber()); // what does this do?
-    }
+    if (canvas != nullptr)
+        canvas->pushEvent(event->getStreamId(), event->getSampleNumber());
+
+    //if (event->getLine() == (int(getParameter("trigger")->getValue())-1) && event->getState())
+    //{
+    //    if (canvas != nullptr)
+    //        canvas->pushEvent(event->getStreamId(), event->getSampleNumber()); // what does this do?
+    //}
 }
 
 void OnlinePSTH::handleSpike(SpikePtr spike)
 {
-   // TODO: push spike into appropriate stim class bin
-   if (canvas != nullptr)
-       canvas->pushSpike(spike->getChannelInfo(), spike->getSampleNumber(), spike->getSortedId());
+    // TODO: push spike into appropriate stim class bin
+    if (currentStimClass != -1) {
+        if (canvas != nullptr)
+            canvas->pushSpike(spike->getChannelInfo(), spike->getSampleNumber(), spike->getSortedId(), currentStimClass);
+    }
+
+    //if (canvas != nullptr)
+    //    canvas->pushSpike(spike->getChannelInfo(), spike->getSampleNumber(), spike->getSortedId());
 }
 

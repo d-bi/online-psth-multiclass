@@ -66,7 +66,7 @@ void OnlinePSTHEditor::updateSettings()
         const SpikeChannel* channel = processor->getSpikeChannel(i);
         
         if (channel->isValid())
-            canvas->addSpikeChannel(channel);
+            canvas->addSpikeChannel(channel, processor->numStimClasses);
     }
     
     canvas->setWindowSizeMs(processor->getPreWindowSizeMs(),
